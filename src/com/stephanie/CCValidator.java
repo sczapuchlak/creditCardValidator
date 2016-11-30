@@ -3,6 +3,8 @@ package com.stephanie;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CCValidator extends JFrame{
 
@@ -11,6 +13,7 @@ public class CCValidator extends JFrame{
     private JButton quitButton;
     private JPanel rootPanel;
     private JLabel validMessageLabel;
+    private boolean resetMessageOnKeyPress = false;
 
     public CCValidator(){
         super("Credit Card Validator");
@@ -31,12 +34,23 @@ public class CCValidator extends JFrame{
                 }else {
                     validMessageLabel.setText("Call the police! It is not valid!");
                 }
+                resetMessageOnKeyPress = true;
             }
         });
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+        creditCardNumberTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (resetMessageOnKeyPress){
+                    validMessageLabel.setText("~Valid or not valid displayed here");
+                    resetMessageOnKeyPress = false;
+                }
             }
         });
     }
